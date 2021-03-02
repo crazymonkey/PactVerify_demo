@@ -324,25 +324,29 @@ if __name__ == '__main__':
         ]
     }
     # 参数说明：响应json数据,契约关键字标识符(默认$)
-    pact_json = generate_pact_json_by_response(response_json, separator='$')
+    pact_json = generate_pact_json_by_response(response_json, separator='$',matchcol=["code","msg"])
     print(pact_json)
     '''
-    # 模板生成只会包含$EachLike、$Like,可以根据具体校验需求更改,数组取第一个元素为模板来生成
+    # 模板生成默认只会包含$EachLike、$Like,matchcol列表可以增加Matcher字段(不能是列表中的字段),可以根据具体校验需求更改,数组取第一个元素为模板来生成
     {
-        '$Like': {
-            'msg': 'success',
-            'code': 0,
-            'data': {
-                '$EachLike': {
-                    'type_id': 249,
-                    'name': '王者荣耀',
-                    'order_index': 1,
-                    'status': 1,
-                    'subtitle': ' ',
-                    'game_name': '王者荣耀'
-                }
-            }
-        }
+	'$Like': {
+		'msg': {
+			'$Matcher': 'success'
+		},
+		'code': {
+			'$Matcher': 0
+		},
+		'data': {
+			'$EachLike': {
+				'type_id': 249,
+				'name': '王者荣耀',
+				'order_index': 1,
+				'status': 1,
+				'subtitle': ' ',
+				'game_name': '王者荣耀'
+			    }
+		    }
+	    }
     }
     '''
 ```  

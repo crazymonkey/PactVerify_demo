@@ -108,9 +108,33 @@ def generate_pact_json_by_response(target_data, pactverify_json=None, is_list=Fa
 
 
 if __name__ == '__main__':
-    resposne_data = {
-        'k1': 'v1',
-        'k2': None
+    response_json = {
+        "msg": "success",
+        "code": 0,
+        "data": [{
+            "type_id": 249,
+            "name": "王者荣耀",
+            "order_index": 1,
+            "status": 1,
+            "subtitle": " ",
+            "game_name": "王者荣耀"
+        }, {
+            "type_id": 250,
+            "name": "绝地求生",
+            "order_index": 2,
+            "status": 1,
+            "subtitle": " ",
+            "game_name": "绝地求生"
+        }, {
+            "type_id": 251,
+            "name": "刺激战场",
+            "order_index": 3,
+            "status": 1,
+            "subtitle": " ",
+            "game_name": "刺激战场"
+        }
+        ]
     }
-    pactverify_json = generate_pact_json_by_response(resposne_data, separator='@')
-    print(pactverify_json)
+    # 参数说明：响应json数据,契约关键字标识符(默认$)
+    pact_json = generate_pact_json_by_response(response_json, separator='$', matchcol=["code", "msg"])
+    print(pact_json)
