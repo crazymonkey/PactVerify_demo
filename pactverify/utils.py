@@ -3,7 +3,7 @@ import json
 from pactverify.core import Like, EachLike
 
 
-def generate_pact_json_by_response(target_data, pactverify_json=None, is_list=False, separator='$'):
+def generate_pact_json_by_response(target_data, pactverify_json=None, is_list=False, separator='$', matchcol=[]):
     """
     根据接口返回数据自动生成json格式断言数据
     :param target_data:  返回数据
@@ -43,28 +43,35 @@ def generate_pact_json_by_response(target_data, pactverify_json=None, is_list=Fa
             if (is_list):
                 target_data[k] = {}
             else:
-                pactverify_json[like_key][k] = {}
+                if k in matchcol:
+                    pactverify_json[like_key][k] = {"$Matcher": v}
+                    continue
+                else:
+                    pactverify_json[like_key][k] = {}
             if type(v) in base_types:
+                if k in matchcol:
+                    v = {"$Matcher": v}
                 if (like_key in pactverify_json.keys()):
-
                     pactverify_json[like_key][k] = v
                 else:
-
                     pactverify_json[k] = v
             else:
+                if k in matchcol:
+                    pactverify_json[k] = {"$Matcher": v}
+                    continue
                 if (is_list):
-                    pactverify_json[k] = generate_pact_json_by_response(v, pactverify_json[k], False, separator)
+                    pactverify_json[k] = generate_pact_json_by_response(v, pactverify_json[k], False, separator,
+                                                                        matchcol)
                 else:
                     pactverify_json[like_key][k] = generate_pact_json_by_response(v,
                                                                                   pactverify_json[like_key][
                                                                                       k],
-                                                                                  False, separator)
-
+                                                                                  False, separator, matchcol)
     elif type(target_data) == list:
         if len(target_data) == 0:
             pactverify_json = {
                 eachlike_key: {
-                    values_key: "空数组占位",
+                    values_key: "",
                     params_key: {
                         "minimum": 0
                     }
@@ -77,7 +84,7 @@ def generate_pact_json_by_response(target_data, pactverify_json=None, is_list=Fa
             }
             pactverify_json[eachlike_key] = generate_pact_json_by_response(example_data,
                                                                            pactverify_json[eachlike_key],
-                                                                           True, separator)
+                                                                           True, separator, matchcol)
 
 
     elif type(target_data) == type(None):
