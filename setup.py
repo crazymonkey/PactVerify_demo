@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="interfacepact",
-    version="0.2",
+    version="0.3",
     author="jaygeli",
     author_email="348447053@qq.com",
     description="interface pact verify",
