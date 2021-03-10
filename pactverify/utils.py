@@ -93,6 +93,8 @@ def generate_pact_json_by_response(target_data, pactverify_json=None, is_list=Fa
                 value_type = 1
             elif type(example_data) == bool:
                 value_type = True
+            elif type(example_data) == float:
+                value_type = 1.1
             if verifyfirstlist:
                 pactverify_json[eachlike_key] = {
                     values_key: value_type,
