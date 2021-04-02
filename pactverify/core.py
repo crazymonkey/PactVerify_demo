@@ -110,9 +110,9 @@ class EachLike(Matcher):
         assert type(extra_types) == list, 'extra_types must be list'
         self.extra_types = []
         # matcher为基础数据才有效
-        if type(self.matcher) in [type(None), bool, int, float, str]:
+        if type(self.matcher) in [type(None), bool, int, float, str,dict]:
             for extra_type in extra_types:
-                if type(extra_type) in [type(None), bool, int, float, str]:
+                if type(extra_type) in [type(None), bool, int, float, str, dict]:
                     self.extra_types.append(extra_type)
 
     def generate(self):
@@ -180,9 +180,9 @@ class Like(Matcher):
         assert type(extra_types) == list, 'extra_types must be list'
         self.extra_types = []
         # matcher为基础数据才有效
-        if type(self.matcher) in [type(None), bool, int, float, str]:
+        if type(self.matcher) in [type(None), bool, int, float, str,dict]:
             for extra_type in extra_types:
-                if type(extra_type) in [type(None), bool, int, float, str]:
+                if type(extra_type) in [type(None), bool, int, float, str, dict]:
                     self.extra_types.append(extra_type)
 
     def generate(self):
